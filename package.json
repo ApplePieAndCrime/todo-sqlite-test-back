@@ -24,6 +24,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/sequelize": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
+    "argon2": "^0.30.3",
     "dotenv": "^16.3.1",
     "faker": "^6.6.6",
     "g": "^2.0.1",

@@ -15,5 +15,8 @@ export class User extends Model<User> {
   email: string;
 
   @Column({ type: DataType.STRING })
-  password: boolean;
+  password: string;
+
+  @Column({ type: DataType.STRING })
+  refreshToken: string;
 }

@@ -1,3 +1,4 @@
+import { AuthModule } from './../auth/auth.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
