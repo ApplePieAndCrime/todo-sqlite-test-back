@@ -1,3 +1,4 @@
+import { IOptions } from './../helpers/types';
 import {
   Controller,
   Get,
@@ -10,6 +11,9 @@ import {
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+import { Query } from '@nestjs/common/decorators/http/route-params.decorator';
+import { FindOptions } from 'sequelize';
+import { Todo } from './entities/todo.entity';
 
 @Controller('todos')
 export class TodosController {
@@ -17,12 +21,18 @@ export class TodosController {
 
   @Post()
   create(@Body() createTodoDto: CreateTodoDto) {
+    console.log({ createTodoDto });
     return this.todosService.create(createTodoDto);
   }
 
+  @Get('/count')
+  count(@Query() options: FindOptions<Todo>) {
+    return this.todosService.count(options);
+  }
+
   @Get()
-  findAll() {
-    return this.todosService.findAll();
+  findAll(@Query() options: FindOptions<Todo>) {
+    return this.todosService.findAll(options);
   }
 
   @Get(':id')
@@ -32,6 +42,7 @@ export class TodosController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
+    console.log({ updateTodoDto });
     return this.todosService.update(+id, updateTodoDto);
   }
 

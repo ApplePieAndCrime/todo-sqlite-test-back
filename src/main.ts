@@ -5,6 +5,7 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   const port = process.env.PORT || 2030;
   await app.listen(port);
 }

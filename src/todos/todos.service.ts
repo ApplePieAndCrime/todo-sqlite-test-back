@@ -7,6 +7,8 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { InjectModel } from '@nestjs/sequelize';
 
+import { FindOptions } from 'sequelize';
+
 @Injectable()
 export class TodosService {
   constructor(@InjectModel(Todo) private todosRepository: typeof Todo) {}
@@ -15,8 +17,15 @@ export class TodosService {
     return this.todosRepository.create(createTodoDto);
   }
 
-  findAll() {
-    return this.todosRepository.findAll();
+  findAll(options: FindOptions<Todo>) {
+    return this.todosRepository.findAll({
+      ...options,
+      order: [['createdAt', 'DESC']],
+    });
+  }
+
+  count(options: FindOptions<Todo>) {
+    return this.todosRepository.count(options);
   }
 
   findOne(id: number) {

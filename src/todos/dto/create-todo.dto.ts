@@ -1,4 +1,5 @@
 export class CreateTodoDto {
   title: string;
-  status: boolean;
+  status?: boolean;
+  userId?: number;
 }

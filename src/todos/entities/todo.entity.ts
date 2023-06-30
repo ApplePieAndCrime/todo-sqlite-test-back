@@ -7,7 +7,7 @@ import {
 } from 'sequelize-typescript';
 import { User } from 'src/users/entities/user.entity';
 
-@Table({ tableName: 'todo', timestamps: false })
+@Table({ tableName: 'todo' })
 export class Todo extends Model<Todo> {
   @Column({ type: DataType.INTEGER, unique: true, primaryKey: true })
   id: number;
@@ -20,7 +20,7 @@ export class Todo extends Model<Todo> {
 
   @ForeignKey(() => User)
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
   })
-  userId: string;
+  userId: number;
 }

@@ -5,6 +5,7 @@ import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthDto } from './dto/auth.dto';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +13,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private readonly mailService: MailService,
   ) {}
   async signUp(createUserDto: CreateUserDto): Promise<any> {
     // Check if user exists
@@ -42,6 +44,21 @@ export class AuthService {
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.usersService.findByEmail(email);
+
+    const randomString = Math.random().toString(36).slice(-8);
+    const hash = await this.hashData(randomString);
+    console.log({ user, randomString });
+    await this.usersService.update(user.id, { password: hash });
+
+    const res = await this.mailService.sendMailForgotPassword(
+      email,
+      randomString,
+    );
+    console.log({ res });
   }
 
   async logout(userId: number) {

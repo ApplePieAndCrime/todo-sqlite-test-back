@@ -1,3 +1,4 @@
+import { Query } from '@nestjs/common/decorators/http/route-params.decorator';
 import {
   Body,
   Controller,
@@ -24,6 +25,16 @@ export class AuthController {
   @Post('signin')
   signin(@Body() data: AuthDto) {
     return this.authService.signIn(data);
+  }
+
+  @Get('forgot-password')
+  forgotPassword(@Query() query) {
+    return this.authService.forgotPassword(query.email);
+  }
+
+  @Post('refresh-token')
+  updateRefreshToken(@Body() data: { userId: number; refreshToken: string }) {
+    return this.updateRefreshToken(data);
   }
 
   @Get('logout')
